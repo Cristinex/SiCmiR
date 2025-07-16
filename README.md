@@ -35,15 +35,15 @@ Example
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
 
 Available arguments
---input", "-i", default="./example/test_mRNA.csv": input mRNA matrix with genes in rows and samples in columns
-                                                  (Removal of batch effects before use is preferable).
---output_dir", "-od", default='./': output directory for predicted miRNA expression profile
---output", "-o", default="./example/result.csv": output predicted miRNA expression profiles with miRNA in
-                                                 rows and samples in columns.
---storage_dir", "-sd", default='./data/': directory for storage of model parameters and supportive files.
---extract", "-e", default=False: whether need to execute extraction from original mRNA expression matrix.
---normalization", "-norm", default=False: whether need to conduct zscore normalization for the
-                                          input/extracted mRNA expression matrix (should avoid repeatly zscore)
---RNA", "-r", default='extracted_zscored_mRNA.csv': input mRNA expression profile for model
---extracted_output", "-eo",default = 'extracted_unzscored_mRNA.csv': unzscored mRNA expression
-                                                                      profiles extracted if -e True
+Argument	Alias	Default	Description
+--input	-i	./example/test_mRNA.csv	Input mRNA expression matrix (genes in rows, samples in columns).
+⚠️ Remove batch effects before use if needed.
+--output	-o	./example/result.csv	Output file: predicted miRNA expression, with miRNAs in rows and samples in columns.
+--output_dir	-od	'./'	Output directory for saving the predicted results.
+--storage_dir	-sd	'./data/'	Directory to store pretrained model and auxiliary files.
+--extract	-e	False	Whether to extract 977 landmark genes from a full mRNA matrix.
+--normalization	-norm	False	Whether to perform z-score normalization on input matrix.
+⚠️ Avoid repeating normalization.
+--RNA	-r	'extracted_zscored_mRNA.csv'	Input RNA matrix after extraction & normalization, used directly for prediction.
+--extracted_output	-eo	'extracted_unzscored_mRNA.csv'	Output file for extracted but unnormalized mRNA matrix (if --extract True).
+
