@@ -33,6 +33,7 @@ The main script accepts input gene expression data (977 landmark genes) and outp
 Example
 ```bash
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
+```
 
 Available arguments
 Argument	Alias	Default	Description
