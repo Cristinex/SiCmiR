@@ -20,7 +20,7 @@ python SiCmiR.py \
   --input ./demo/raw_test_mRNA.csv \
   --normalization\
   --save_extract extracted_unzscore_mRNA.csv \
-  --save_zscore_input 'extracted_zscore_mRNA.csv' \
+  --save_zscore_input extracted_zscore_mRNA.csv \
   --output_dir ./ \
   --output predicted_miRNA.csv
 ```
@@ -67,14 +67,14 @@ conda activate SiCmiR
 
 You can obtain SiCmiR in two ways:
 
-### Option 1: Clone the repository (recommended)
+### Option 1: Clone the repository
 
 If you have `git` installed and internet access to GitHub:
 
 ```bash
 git clone https://github.com/Cristine/SiCmiR.git
 cd SiCmiR
-python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
+python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
 This method allows you to keep the project up to date via git pull.
 
@@ -89,7 +89,7 @@ Go to https://github.com/Cristine/SiCmiR
 - Navigate to the extracted folder:
 ```bash
 cd SiCmiR-main
-python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
+python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
 
 
