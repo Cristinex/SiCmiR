@@ -17,7 +17,7 @@ python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
 ### Example 2: Use default pretrained model + full pipeline
 ```bash
 python SiCmiR.py \
-  --input ./example/test_mRNA.csv \
+  --input ./example/raw_mRNA.csv \
   --normalization\
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input 'extracted_zscore_mRNA.csv' \
