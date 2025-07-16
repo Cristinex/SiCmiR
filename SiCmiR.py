@@ -104,7 +104,7 @@ def predict(
 
 def main():
     parser = argparse.ArgumentParser(description="SiCmiR: Predict miRNA expression from mRNA data")
-    parser.add_argument("--input", "-i", type=str, default="./example/test_mRNA.csv",
+    parser.add_argument("--input", "-i", type=str, default="./demo/test_mRNA.csv",
         help="Input mRNA matrix (genes in rows, samples in columns). \
         Remove sample batch effects before use is preferable. Default: %(default)s")
     parser.add_argument("--output", "-o", type=str, default="predicted_miRNA.csv",
