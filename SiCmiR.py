@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 from scipy.stats import zscore
 
-import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", "-i", default="L1000_mRNA.csv")
@@ -42,11 +41,8 @@ def build_submatrix(df_all: pd.DataFrame, picked_names, picked_alias, fill_value
     return sub
 
 #----Part II: Prediction----#
-import sys
 import torch
 import torch.nn as nn
-import numpy as np
-import pandas as pd
 
 from torch.nn import init
 from torch.utils.data import DataLoader
