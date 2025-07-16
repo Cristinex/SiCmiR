@@ -35,14 +35,15 @@ Example
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
 
 Available arguments
---input", "-i", default="./example/test_mRNA.csv": input mRNA matrix with genes in
-                                                   rows and samples in columns
-                                                  (Removal of batch effects before use
-                                                   is preferable).
+--input", "-i", default="./example/test_mRNA.csv": input mRNA matrix with genes in rows and samples in columns
+                                                  (Removal of batch effects before use is preferable).
 --output_dir", "-od", default='./': output directory for predicted miRNA expression profile
---output", "-o", default="./example/result.csv": output predicted miRNA expression profiles with miRNA in rows and samples in columns.
+--output", "-o", default="./example/result.csv": output predicted miRNA expression profiles with miRNA in
+                                                 rows and samples in columns.
 --storage_dir", "-sd", default='./data/': directory for storage of model parameters and supportive files.
 --extract", "-e", default=False: whether need to execute extraction from original mRNA expression matrix.
---normalization", "-norm", default=False: whether need to conduct zscore normalization for the input/extracted mRNA expression matrix (should avoid repeatly zscore)
+--normalization", "-norm", default=False: whether need to conduct zscore normalization for the
+                                          input/extracted mRNA expression matrix (should avoid repeatly zscore)
 --RNA", "-r", default='extracted_zscored_mRNA.csv': input mRNA expression profile for model
---extracted_output", "-eo",default = 'extracted_unzscored_mRNA.csv': unzscored mRNA expression profiles extracted if -e True
+--extracted_output", "-eo",default = 'extracted_unzscored_mRNA.csv': unzscored mRNA expression
+                                                                      profiles extracted if -e True
