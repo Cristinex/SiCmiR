@@ -91,9 +91,9 @@ If you don't use git:
 Go to https://github.com/Cristine/SiCmiR
 
 - Click the green Code button → Download ZIP
-- Unzip the downloaded SiCmiR-main.zip
-- Navigate to the extracted folder:
+- Unzip the downloaded SiCmiR-main.zip & Navigate to the extracted folder:
 ```bash
+unzip SiCmiR-main.zip
 cd SiCmiR-main
 python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
