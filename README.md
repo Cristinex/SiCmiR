@@ -74,6 +74,7 @@ If you have `git` installed and internet access to GitHub:
 ```bash
 git clone https://github.com/Cristine/SiCmiR.git
 cd SiCmiR
+python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
 ```
 This method allows you to keep the project up to date via git pull.
 
@@ -88,6 +89,7 @@ Go to https://github.com/Cristine/SiCmiR
 - Navigate to the extracted folder:
 ```bash
 cd SiCmiR-main
+python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
 ```
 
 
