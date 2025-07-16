@@ -35,7 +35,10 @@ Example
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
 
 Available arguments
---input", "-i", default="./example/test_mRNA.csv": input mRNA matrix with genes in rows and samples in columns (Removal of batch effects before use is preferable).
+--input", "-i", default="./example/test_mRNA.csv": input mRNA matrix with genes in
+                                                   rows and samples in columns
+                                                  (Removal of batch effects before use
+                                                   is preferable).
 --output_dir", "-od", default='./': output directory for predicted miRNA expression profile
 --output", "-o", default="./example/result.csv": output predicted miRNA expression profiles with miRNA in rows and samples in columns.
 --storage_dir", "-sd", default='./data/': directory for storage of model parameters and supportive files.
