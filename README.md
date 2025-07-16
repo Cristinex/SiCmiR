@@ -12,15 +12,17 @@ The main script accepts input gene expression data (977 landmark genes) and outp
 
 ### Example 1: Predict using a preprocessed matrix (already extracted & normalized)
 ```bash
-python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
+python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
 ```
 ### Example 2: Use default pretrained model + full pipeline
 ```bash
 python SiCmiR.py \
-  --input ./example/example_input.csv \
-  --extract True \
-  --normalization True \
-  --output ./results/predicted_miRNA.csv
+  --input ./example/test_mRNA.csv \
+  --normalization\
+  --save_extract extracted_unzscore_mRNA.csv \
+  --save_zscore_input 'extracted_zscore_mRNA.csv' \
+  --output_dir ./ \
+  --output predicted_miRNA.csv
 ```
 
 ### Available Arguments
@@ -28,10 +30,10 @@ python SiCmiR.py \
 | Argument           | Alias | Default                           | Description |
 |--------------------|-------|-----------------------------------|-------------|
 | `--input`          | `-i`  | `'./example/test_mRNA.csv'`         | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
-| `--output`         | `-o`  | `'./example/result.csv'`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
+| `--output`         | `-o`  | `'predicted_miRNA.csv'`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
 | `--output_dir`     | `-od` | `'./'`                             | Output directory for saving the predicted results. |
 | `--storage_dir`    | `-sd` | `'./data/'`                        | Directory to store pretrained model and auxiliary files. |
-| `--extract`        | `-e`  | `True`                            | Whether to extract 977 landmark genes from a full mRNA matrix (✔ Recomended). |
+| `--no_extract`        | `-e`  | `False`                            | Do not extract 977 landmark genes from input mRNA matrix (Not Recomended). |
 | `--normalization`  | `-norm` | `False`                          | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
 | `--save_extract`            | `-se`  | `None`    | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
 | `--save_zscore_input` | `-z` | `None` | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
