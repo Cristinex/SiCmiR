@@ -27,8 +27,8 @@ python SiCmiR.py \
 
 ### Available Arguments
 
-| Argument           | Alias | Default                           | Description |
-|--------------------|--------|----------------------------------|-------------|
+| Argument           | Alias    | Default                          | Description |
+|--------------------|----------|----------------------------------|-------------|
 | `--input`          | `-i`   | `'./example/test_mRNA.csv'`        | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
 | `--output`         | `-o`   | `'predicted_miRNA.csv'`           | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
 | `--output_dir`     | `-od`  | `'./'`                            | Output directory for saving the predicted results. |
