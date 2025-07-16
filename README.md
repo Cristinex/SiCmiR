@@ -26,17 +26,18 @@ python SiCmiR.py \
 ```
 
 ### Available Arguments
+| Argument           | Alias       | Default                          | Description |
+|--------------------|-------------|----------------------------------|-------------|
+| `--input`          | `-i`        | `'./example/test_mRNA.csv'`      | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
+| `--output`         | `-o`        | `'predicted_miRNA.csv'`          | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
+| `--output_dir`     | `-od`       | `'./'`                            | Output directory for saving the predicted results. |
+| `--storage_dir`    | `-sd`       | `'./data/'`                       | Directory to store pretrained model and auxiliary files. |
+| `--no_extract`     | `-n`        | `False`                           | Do not extract 977 landmark genes from input mRNA matrix (Not Recomended). |
+| `--normalization`  | `-norm `    | `False`                           | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
+| `--save_extract`   | `-se`       | `None`                            | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
+| `--save_zscore_input` | `-z`     | `None`                            | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
+| `--model`          | `-m`        | `'./data/DNN_miRNA.pth'`          | Path to SiCmiR model. |
 
-| Argument           | Alias    | Default                          | Description |
-|--------------------|----------|----------------------------------|-------------|
-| `--input`          | `-i`   | `'./example/test_mRNA.csv'`        | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
-| `--output`         | `-o`   | `'predicted_miRNA.csv'`           | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
-| `--output_dir`     | `-od`  | `'./'`                            | Output directory for saving the predicted results. |
-| `--storage_dir`    | `-sd`  | `'./data/'`                       | Directory to store pretrained model and auxiliary files. |
-| `--no_extract`        | `-e`   | `False`                           | Do not extract 977 landmark genes from input mRNA matrix (Not Recomended). |
-| `--normalization`  | `-norm`  | `False`                         | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
-| `--save_extract`            | `-se`   | `None`   | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
-| `--save_zscore_input` | `-z`  | `None` | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
 
 ---
 ## Requiremnt Installation &  Download
