@@ -33,8 +33,8 @@ python SiCmiR.py \
 | `--storage_dir`    | `-sd` | `'./data/'`                        | Directory to store pretrained model and auxiliary files. |
 | `--extract`        | `-e`  | `False`                            | Whether to extract 977 landmark genes from a full mRNA matrix. |
 | `--normalization`  | `-norm` | `False`                          | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
-| `--RNA`            | `-r`  | `'extracted_zscored_mRNA.csv'`    | Input RNA matrix after extraction & normalization, used directly for prediction. |
-| `--extracted_output` | `-eo` | `'extracted_unzscored_mRNA.csv'` | Output file for extracted but unnormalized mRNA matrix (if `--extract` is used). |
+| `--save_extract`            | `-se`  | `None`    | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
+| `--save_zscore_input` | `-z` | `None` | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
 
 ---
 ## Requiremnt Installation &  Download
