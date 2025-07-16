@@ -14,6 +14,7 @@ pip install -r Requirements.txt
 conda create -n SiCmiR python=3.8 pandas numpy scipy pytorch -c pytorch -y
 ```
 **Option 3:** Use GPU (Optional & Not Recommended since there is no training process in applying SiCmiR)
+
 If your system supports CUDA and you want to use GPU acceleration, install PyTorch with the appropriate CUDA version. Visit:
 👉 https://pytorch.org/get-started/locally/
 
