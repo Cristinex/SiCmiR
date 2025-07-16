@@ -82,7 +82,7 @@ def predict(
         extracted_mRNA = build_submatrix(
             data_matrix, picked_names, picked_alias, output_dir, save_extract=save_extract)
     else:
-        extracted_mRNA = pd.read_csv(input_path, index_col=0)
+        extracted_mRNA = pd.read_csv(input_path, index_col=0).T
 
     if normalization:
         extracted_zscored_mRNA = extracted_mRNA.apply(lambda x: zscore(x, ddof=0), axis=0).fillna(0) #zscore scaling and fill NA with 0
