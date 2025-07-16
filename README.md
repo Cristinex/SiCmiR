@@ -30,21 +30,22 @@ conda activate SiCmiR
 Script: SiCmiR.py
 The main script accepts input gene expression data (977 landmark genes) and outputs predicted miRNA expression.
 
-Example
+###Example
 ```bash
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
 ```
 
-Available arguments
-Argument	Alias	Default	Description
---input	-i	./example/test_mRNA.csv	Input mRNA expression matrix (genes in rows, samples in columns).
-⚠️ Remove batch effects before use if needed.
---output	-o	./example/result.csv	Output file: predicted miRNA expression, with miRNAs in rows and samples in columns.
---output_dir	-od	'./'	Output directory for saving the predicted results.
---storage_dir	-sd	'./data/'	Directory to store pretrained model and auxiliary files.
---extract	-e	False	Whether to extract 977 landmark genes from a full mRNA matrix.
---normalization	-norm	False	Whether to perform z-score normalization on input matrix.
-⚠️ Avoid repeating normalization.
---RNA	-r	'extracted_zscored_mRNA.csv'	Input RNA matrix after extraction & normalization, used directly for prediction.
---extracted_output	-eo	'extracted_unzscored_mRNA.csv'	Output file for extracted but unnormalized mRNA matrix (if --extract True).
+###Available Arguments
+
+| Argument           | Alias | Default                           | Description |
+|--------------------|-------|-----------------------------------|-------------|
+| `--input`          | `-i`  | `./example/test_mRNA.csv`         | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
+| `--output`         | `-o`  | `./example/result.csv`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
+| `--output_dir`     | `-od` | `'./'`                             | Output directory for saving the predicted results. |
+| `--storage_dir`    | `-sd` | `'./data/'`                        | Directory to store pretrained model and auxiliary files. |
+| `--extract`        | `-e`  | `False`                            | Whether to extract 977 landmark genes from a full mRNA matrix. |
+| `--normalization`  | `-norm` | `False`                          | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
+| `--RNA`            | `-r`  | `'extracted_zscored_mRNA.csv'`    | Input RNA matrix after extraction & normalization, used directly for prediction. |
+| `--extracted_output` | `-eo` | `'extracted_unzscored_mRNA.csv'` | Output file for extracted but unnormalized mRNA matrix (if `--extract` is used). |
+
 
