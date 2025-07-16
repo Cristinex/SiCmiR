@@ -31,7 +31,7 @@ python SiCmiR.py \
 | `--output`         | `-o`  | `'./example/result.csv'`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
 | `--output_dir`     | `-od` | `'./'`                             | Output directory for saving the predicted results. |
 | `--storage_dir`    | `-sd` | `'./data/'`                        | Directory to store pretrained model and auxiliary files. |
-| `--extract`        | `-e`  | `False`                            | Whether to extract 977 landmark genes from a full mRNA matrix. |
+| `--extract`        | `-e`  | `True`                            | Whether to extract 977 landmark genes from a full mRNA matrix (✔ Recomended). |
 | `--normalization`  | `-norm` | `False`                          | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
 | `--save_extract`            | `-se`  | `None`    | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
 | `--save_zscore_input` | `-z` | `None` | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
