@@ -6,7 +6,6 @@ import pandas as pd
 import numpy as np
 from scipy.stats import zscore
 
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", "-i", default="L1000_mRNA.csv")
 parser.add_argument("--output", "-o", default="result.csv")
