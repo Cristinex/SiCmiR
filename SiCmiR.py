@@ -11,7 +11,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--input", "-i", default="L1000_mRNA.csv")
 parser.add_argument("--output", "-o", default="result.csv")
-parser.add_argument("--storage_dir", "-sd", default='./')
+parser.add_argument("--storage_dir", "-sd", default='./data')
 parser.add_argument("--extract", "-e", default=False)
 parser.add_argument("--normalization", "-norm", default=False)
 parser.add_argument("--RNA", "-r", default='extracted_zscored_mRNA.csv')
@@ -79,7 +79,7 @@ class NeuralNet(nn.Module):
 
 # define a loss function
 loss_fn = torch.nn.MSELoss().to(device)
-net=torch.load(f"{args.storage_dir}/step4_DNN_miRNA199.pth",map_location=device)
+net=torch.load(f"{args.storage_dir}/DNN_miRNA.pth",map_location=device)
 net.eval()
 
 
