@@ -12,12 +12,12 @@ The main script accepts input gene expression data (977 landmark genes) and outp
 
 ### Example 1: Predict using a preprocessed matrix (already extracted & normalized)
 ```bash
-python SiCmiR.py --input ./example/test_mRNA.csv --output predicted_miRNA.csv
+python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
 ### Example 2: Use default pretrained model + full pipeline
 ```bash
 python SiCmiR.py \
-  --input ./example/raw_mRNA.csv \
+  --input ./demo/raw_test_mRNA.csv \
   --normalization\
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input 'extracted_zscore_mRNA.csv' \
