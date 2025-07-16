@@ -2,21 +2,32 @@
 **SiCmiR** predicts miRNA expression profile from only 977 LINCS L1000 landmark genes!
 
 ---
+
 ## Usage
 Script: SiCmiR.py
 The main script accepts input gene expression data (977 landmark genes) and outputs predicted miRNA expression.
 
-### Example
+## Example
+
+### Example 1: Predict using a preprocessed matrix (already extracted & normalized)
 ```bash
 python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.csv
 ```
+### Example 2: Use default pretrained model + full pipeline
+```bash
+python SiCmiR.py \
+  --input ./example/example_input.csv \
+  --extract True \
+  --normalization True \
+  --output ./results/predicted_miRNA.csv
+```
 
-###Available Arguments
+### Available Arguments
 
 | Argument           | Alias | Default                           | Description |
 |--------------------|-------|-----------------------------------|-------------|
-| `--input`          | `-i`  | `./example/test_mRNA.csv`         | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
-| `--output`         | `-o`  | `./example/result.csv`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
+| `--input`          | `-i`  | `'./example/test_mRNA.csv'`         | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
+| `--output`         | `-o`  | `'./example/result.csv'`            | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
 | `--output_dir`     | `-od` | `'./'`                             | Output directory for saving the predicted results. |
 | `--storage_dir`    | `-sd` | `'./data/'`                        | Directory to store pretrained model and auxiliary files. |
 | `--extract`        | `-e`  | `False`                            | Whether to extract 977 landmark genes from a full mRNA matrix. |
@@ -24,6 +35,35 @@ python SiCmiR.py --input ./example/example_input.csv --output predicted_miRNA.cs
 | `--RNA`            | `-r`  | `'extracted_zscored_mRNA.csv'`    | Input RNA matrix after extraction & normalization, used directly for prediction. |
 | `--extracted_output` | `-eo` | `'extracted_unzscored_mRNA.csv'` | Output file for extracted but unnormalized mRNA matrix (if `--extract` is used). |
 
+---
+## Download
+
+You can obtain SiCmiR in two ways:
+
+---
+
+### Option 1: Clone the repository (recommended)
+
+If you have `git` installed and internet access to GitHub:
+
+```bash
+git clone https://github.com/Cristine/SiCmiR.git
+cd SiCmiR
+```
+This method allows you to keep the project up to date via git pull.
+
+### Option 2: Download as ZIP
+
+If you don't use git:
+
+Go to https://github.com/Cristine/SiCmiR
+
+- Click the green Code button → Download ZIP
+- Unzip the downloaded SiCmiR-main.zip
+- Navigate to the extracted folder:
+```bash
+cd SiCmiR-main
+```
 ---
 ## Requiremnt Installation
 You can install and run **SiCmiR** using either `pip` or `conda`.
