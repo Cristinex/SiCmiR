@@ -54,7 +54,7 @@ conda create -n SiCmiR python=3.8 pandas numpy scipy pytorch -c pytorch -y
 
 or
 
-conda create -n SiCmiR python=3.8 pandas=1.3 numpy=1.21 scipy=1.7 pytorch=1.10 -c pytorch -y
+conda create -n SiCmiR python=3.8 pandas=1.5 numpy=1.21 scipy=1.10 pytorch=2.0 -c pytorch -y
 ```
 
 **Then activate your environment:**
