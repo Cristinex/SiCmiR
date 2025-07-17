@@ -27,6 +27,10 @@ SiCmiR-main/
 │   ├── SiCmiR_beta.py          # the same as SiCmiR.py
 │   └── SiCmiR_full.py          # ⚡ copy it to project_root (SiCmiR-main) before use
 
+├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
+│   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
+│   └── raw_GSE64465_mRNA.csv   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
+
 └── outputs/                    # demonstration for output
 │   └── predicted_miRNA.csv     # demonstration for output
 │   └── predicted_GSE64465_miRNA.csv     # demonstration for output
