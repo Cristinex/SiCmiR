@@ -19,9 +19,9 @@ python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 python SiCmiR.py \
   --input ./demo/raw_test_mRNA.csv \
   --normalization\
+  --output_dir ./ \
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input extracted_zscore_mRNA.csv \
-  --output_dir ./ \
   --output predicted_miRNA.csv
 ```
 
