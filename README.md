@@ -30,6 +30,7 @@ SiCmiR-main/
 ├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
 │   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
 │   └── raw_GSE64465_mRNA.csv   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
+│   └── cell_meta.csv           # cell metadata for GSE644565
 
 └── outputs/                    # demonstration for output
 │   └── predicted_miRNA.csv     # demonstration for output
@@ -54,7 +55,7 @@ python SiCmiR_full.py \
   --output predicted_GSE64465_miRNA.csv\
   --normalization\
   --pooling_method bootstrap \
-  --group_file ./demo/group_file.csv
+  --group_file ./demo/cell_meta.csv
 ```
 
 ### 📕 Available Arguments
