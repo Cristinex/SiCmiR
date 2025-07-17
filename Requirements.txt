@@ -1,4 +1,5 @@
 pandas>=1.5
 numpy>=1.21
 scipy>=1.10
-torch>=2.0
+torch>=2.4
+scanpy>=1.8
