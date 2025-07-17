@@ -42,7 +42,7 @@ python SiCmiR.py \
 ---
 ## Requiremnt Installation &  Download
 
-- Setup the environment using either `pip` or `conda`.
+### 📌 Setup the environment using either `pip` or `conda`.
 
 **Option 1:**  Install with pip
 ```bash
@@ -71,9 +71,9 @@ conda create -n SiCmiR python=3.8 pandas numpy scipy
 conda activate SiCmiR
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
-- Obtain SiCmiR in two ways:
+### 📌 Obtain SiCmiR in two ways:
 
-### Option 1: Clone the repository
+**Option 1: Clone the repository**
 
 If you have `git` installed and internet access to GitHub:
 
@@ -84,7 +84,7 @@ python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
 This method allows you to keep the project up to date via git pull.
 
-### Option 2: Download as ZIP
+**Option 2: Download as ZIP**
 
 If you don't use git:
 
