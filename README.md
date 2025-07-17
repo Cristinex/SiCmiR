@@ -18,6 +18,7 @@ The main script accepts input gene expression matrix (genes in rows and samples/
 ```bash
 SiCmiR-main/
 ├── SiCmiR.py                   # main script
+├── SiCmiR_full.py              # full pipeline
 ├── Requirements.txt            # dependency version
 ├── README.md                   # README
 
@@ -28,13 +29,13 @@ SiCmiR-main/
 
 ├── script/                     # script
 │   ├── SiCmiR_beta.py          # the same as SiCmiR.py
-│   └── SiCmiR_full.py          # ⚡ copy it to project_root (SiCmiR-main) before use
+│   └── SiCmiR_full.py          # full pipeline
 
 ├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
 │   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
 │   │── raw_GSE64465_mRNA.h5ad   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
 │   │                             (See download link at raw_GSE64465_mRNA.txt)
-│   └── cell_meta.csv           # cell metadata for GSE644565
+│   └── cell_metadata.csv           # cell metadata for GSE64465
 
 └── outputs/                    # demonstration for output
 │   └── predicted_miRNA.csv     # demonstration for output
@@ -59,7 +60,7 @@ python SiCmiR_full.py \
   --output predicted_GSE64465_miRNA.csv\
   --normalization\
   --pooling_method bootstrap \
-  --group_file ./demo/cell_meta.csv
+  --group_file ./demo/cell_metadata.csv
 ```
 
 ### 📕 Available Arguments
