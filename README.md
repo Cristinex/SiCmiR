@@ -27,10 +27,6 @@ SiCmiR-main/
 │   ├── miRNA1298.csv           # miRNAs (used for miRNA prediction)
 │   └── DNN_miRNA.pth           # pretrained_model (used for miRNA prediction)
 
-├── script/                     # script
-│   ├── SiCmiR_beta.py          # the same as SiCmiR.py
-│   └── SiCmiR_full.py          # full pipeline
-
 ├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
 │   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
 │   ├── raw_GSE64465_mRNA.h5ad   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
