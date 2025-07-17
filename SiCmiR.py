@@ -31,8 +31,6 @@ def build_submatrix(df_all: pd.DataFrame, picked_names, picked_alias, output_dir
     if save_extract:
         sub.to_csv(os.path.join(output_dir,save_extract))
 
-
-
     return sub
 
 #----Part II: Prediction----#
