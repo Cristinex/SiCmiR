@@ -42,7 +42,7 @@ python SiCmiR.py \
 ---
 ## Requiremnt Installation &  Download
 
-You can install and run **SiCmiR** using either `pip` or `conda`.
+- Setup the environment using either `pip` or `conda`.
 
 **Option 1:**  Install with pip
 ```bash
@@ -71,7 +71,7 @@ conda create -n SiCmiR python=3.8 pandas numpy scipy
 conda activate SiCmiR
 conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 ```
-You can obtain SiCmiR in two ways:
+- Obtain SiCmiR in two ways:
 
 ### Option 1: Clone the repository
 
