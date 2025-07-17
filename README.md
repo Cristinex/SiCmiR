@@ -4,41 +4,69 @@
 ---
 
 ## Usage
-Script: SiCmiR.py
+### 💡 Script: 
+**SiCmiR.py** support extract landmark genes, conduct z-score normalization & miRNA prediction (the same as script/SiCmiR_beta.py)
+**SiCmiR_full.py** support generate pseudo bulk samples, extract landmark genes, conduct z-score normalization & miRNA prediction
 
-The main script accepts input gene expression data (977 landmark genes) and outputs predicted miRNA expression.
+The main script accepts input gene expression matrix (genes in rows and samples/cells in columns) and outputs predicted miRNA expression.
 
-## Example
+### 📂 Directory tree
+```bash
+SiCmiR-main/
+├── SiCmiR.py                   # main script
+├── Requirements.txt            # dependency version
+├── README.md                   # README
 
-### Example 1: Predict using a preprocessed matrix (already extracted & normalized)
+├── data/                       # supporting documents for main script
+│   ├── L1000gene.csv           # landmark genes (used in extraction)
+│   ├── miRNA1298.csv           # miRNAs (used for miRNA prediction)
+|   └── DNN_miRNA.pth           # pretrained_model (used for miRNA prediction)
+
+├── script/                     # script
+│   ├── SiCmiR_beta.py          # the same as SiCmiR.py
+│   └── SiCmiR_full.py          # ⚡ copy it to project_root (SiCmiR-main) before use
+
+└── outputs/                    # demonstration for output
+│   └── predicted_miRNA.csv     # demonstration for output
+│   └── predicted_GSE64465_miRNA.csv     # demonstration for output
+```
+
+### 📝 Example
+
+### Example 1: Predict using a preprocessed matrix 
+(already extracted & normalized and no need to generate pseudo bulk samples)
 ```bash
 python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
-### Example 2: Use default pretrained model + full pipeline
+### Example 2: Use full pipeline 
+(generate pseudo bulk samples, extract landmark genes, conduct z-score normalization & miRNA prediction)
 ```bash
-python SiCmiR.py \
-  --input ./demo/raw_test_mRNA.csv \
-  --normalization\
+python SiCmiR_full.py \
+  --input ./demo/raw_GSE64465_mRNA.csv \
   --output_dir ./ \
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input extracted_zscore_mRNA.csv \
-  --output predicted_miRNA.csv
+  --output predicted_GSE64465_miRNA.csv\
+  --normalization\
+  --pooling_method bootstrap \
+  --group_file ./demo/group_file.csv
 ```
 
-### Available Arguments
+### 📕 Available Arguments
 | Argument           | Alias       | Default                          | Description |
 |--------------------|-------------|----------------------------------|-------------|
-| `--input`          | `-i`        | `'./demo/test_mRNA.csv'`      | Input mRNA expression matrix (genes in rows, samples in columns).<br>📌 Remove batch effects before use if needed. |
-| `--output`         | `-o`        | `'predicted_miRNA.csv'`          | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns. |
-| `--output_dir`     | `-od`       | `'./'`                            | Output directory for saving the predicted results. |
-| `--storage_dir`    | `-sd`       | `'./data/'`                       | Directory to store pretrained model and auxiliary files. |
-| `--no_extract`     | `-n`        | `False`                           | Do not extract 977 landmark genes from input mRNA matrix (Not Recomended). |
-| `--normalization`  | `-norm `    | `False`                           | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization. |
+| `--input`          | `-i`        | `'./demo/test_mRNA.csv'`      | Input mRNA expression matrix (genes in rows, samples in columns)<br>📌 Remove batch effects before use if needed. |
+| `--output`         | `-o`        | `'predicted_miRNA.csv'`          | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns |
+| `--output_dir`     | `-od`       | `'./'`                            | Output directory for saving the predicted results |
+| `--storage_dir`    | `-sd`       | `'./data/'`                       | Directory to store pretrained model and auxiliary files |
+| `--no_extract`     | `-n`        | `False`                           | Do not extract 977 landmark genes from input mRNA matrix (Not Recomended) |
+| `--normalization`  | `-norm `    | `False`                           | Whether to perform z-score normalization on input matrix.<br>⚠️ Avoid repeating normalization |
 | `--save_extract`   | `-se`       | `None`                            | Output file name for extracted but unnormalized mRNA matrix (if `--extract` is used) |
-| `--save_zscore_input` | `-z`     | `None`                            | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used). |
-| `--model`          | `-m`        | `'./data/DNN_miRNA.pth'`          | Path to SiCmiR model. |
-
-
+| `--save_zscore_input` | `-z`     | `None`                            | Save zscored mRNA matrix used directly for prediction (if `--normalization` is used) |
+| `--model`          | `-m`        | `'./data/DNN_miRNA.pth'`          | Path to SiCmiR model |
+| `--pooling_method`          | `-p`        | `None`          | Choose a pooling method. choices=[None, 'average', 'bootstrap']  |
+| `--group_file`          | `-g`        | `'./demo/group.csv'`          | CSV file with sample groups (index: sample/cell names, column 'group': group labels) |
+| `--random_seed`          | `-r`        | `system entropy`          | Random seed for bootstrap sampling. If not provided, uses system entropy (Not recommend to set) |
 ---
 ## Requiremnt Installation &  Download
 
