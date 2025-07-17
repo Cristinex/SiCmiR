@@ -58,7 +58,8 @@ python SiCmiR_full.py \
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input extracted_zscore_mRNA.csv \
   --output predicted_GSE64465_miRNA.csv\
-  --normalization\
+  --extract \
+  --normalization \
   --pooling_method bootstrap \
   --group_file ./demo/cell_metadata.csv
 ```
