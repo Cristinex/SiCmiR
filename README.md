@@ -33,13 +33,15 @@ SiCmiR-main/
 
 ├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
 │   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
-│   │── raw_GSE64465_mRNA.h5ad   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
+│   ├── raw_GSE64465_mRNA.h5ad   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
 │   │                             (See download link at raw_GSE64465_mRNA.txt)
 │   └── cell_metadata.csv           # cell metadata for GSE64465
 
 └── outputs/                    # demonstration for output
-│   └── predicted_miRNA.csv     # demonstration for output
-│   └── predicted_GSE64465_miRNA.csv     # demonstration for output
+│   ├── predicted_miRNA.csv     # demonstration for output of Example 1
+│   ├── predicted_GSE64465_miRNA.csv     # demonstration for output of Example 2
+│   ├── extracted_unzscore_mRNA.csv      # demonstration for output of Example 2
+│   └── extracted_zscore_mRNA.csv        # demonstration for output of Example 2
 ```
 
 ### 📝 Example
@@ -47,18 +49,23 @@ SiCmiR-main/
 ### Example 1: Predict using a preprocessed matrix 
 (already extracted & normalized and no need to generate pseudo bulk samples)
 ```bash
-python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
+python SiCmiR.py --input ./demo/test_mRNA.csv --output_dir outputs --output predicted_miRNA.csv
+
+Output:
+2025-07-17 22:17:08,745 - INFO - Starting SiCmiR prediction pipeline.
+2025-07-17 22:17:08,916 - INFO - Input matrix shape: (99, 977)
+2025-07-17 22:17:08,940 - INFO - Building submatrix with 977 landmark genes.
+2025-07-17 22:17:09,498 - INFO - Results saved to outputs/predicted_miRNA.csv
 ```
 ### Example 2: Use full pipeline 
 (generate pseudo bulk samples, extract landmark genes, conduct z-score normalization & miRNA prediction)
 ```bash
 python SiCmiR_full.py \
   --input ./demo/raw_GSE64465_mRNA.h5ad \
-  --output_dir ./ \
+  --output_dir outputs \
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input extracted_zscore_mRNA.csv \
   --output predicted_GSE64465_miRNA.csv\
-  --extract \
   --normalization \
   --pooling_method bootstrap \
   --group_file ./demo/cell_metadata.csv
