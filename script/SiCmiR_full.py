@@ -9,6 +9,8 @@ import torch.nn as nn
 import logging
 import random
 import math
+import time
+import scanpy as sc
 
 # Set up logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -122,10 +124,15 @@ def predict(
     pooling_method=None,
     group_file=None,
     bootstrap_n=2,
-    random_seed=42
+    random_seed=None
 ):
 
     logger.info("Starting SiCmiR prediction pipeline.")
+    if random_seed is None:
+        random_seed = int(time.time())
+        logger.info(f"Using dynamic seed: {random_seed}")
+    else:
+        logger.info(f"Using provided seed: {random_seed}")
     if not os.path.exists(input_path):
         logger.error(f"Input file {input_path} does not exist.")
         raise FileNotFoundError(f"Input file {input_path} not found.")
@@ -156,7 +163,16 @@ def predict(
 
 
     # Load and preprocess input data
-    data_matrix = pd.read_csv(input_path, index_col=0).T
+
+    
+    if input_path.endswith(".h5ad"):
+        ad = sc.read_h5ad(input_path, backed="r")
+        data_matrix = ad.to_df()
+    elif input_path.endswith((".csv", ".csv.gz")):
+        data_matrix = pd.read_csv(input_path, index_col=0).T
+    else: 
+        logger.error(f"Invalid input formmat.")
+        raise TypeError ("Unsupported file format; expected .h5ad or .csv(.gz)")
     logger.info(f"Input matrix shape: {data_matrix.shape}")
     if data_matrix.empty:
         logger.error("Input matrix is empty or improperly formatted.")
@@ -258,12 +274,12 @@ def main():
         help="Save z-scored mRNA matrix used for prediction. Default: None")
     parser.add_argument("--model", "-m", default="./data/DNN_miRNA.pth",
         help="SiCmiR model")
-    parser.add_argument("--pooling_method", "-pm", choices=[None, 'average', 'bootstrap'], default='none',
+    parser.add_argument("--pooling_method", "-p", choices=[None, 'average', 'bootstrap'], default='none',
         help="Pooling method: 'none', 'average', or 'bootstrap'. Default: %(default)s")
-    parser.add_argument("--group_file", "-gf", default=None,
+    parser.add_argument("--group_file", "-g", default=None,
         help="CSV file with sample groups (index: sample names, column 'group': group labels). Default: None")
-    parser.add_argument("--random_seed", "-rs", type=int, default=42,
-        help="Random seed for bootstrap sampling. Default: %(default)s")
+    parser.add_argument("--random_seed", "-r", type=int, default=None,
+        help="Random seed for bootstrap sampling. If not provided, uses system entropy. Default: None")
     
     args = parser.parse_args()
     
