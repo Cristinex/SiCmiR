@@ -39,25 +39,23 @@ def pool_samples(df: pd.DataFrame, group_col=None, pooling_method='none', bootst
         for group in unique_groups:
             group_samples = group_col[group_col == group].index
             if len(group_samples) > 0:
-                pooled_df = df.loc[group_samples].mean(axis=1).to_frame(name=group).T
+                pooled_df = df.loc[group_samples].mean(axis=0,numeric_only=True).to_frame(name=group).T
                 pooled_dfs.append(pooled_df)
     elif pooling_method == 'bootstrap':
         random.seed(random_seed)
         for group in unique_groups:
             group_samples = group_col[group_col == group].index
             bootstrap_n = max(1, math.ceil(len(group_samples) / 100))
-            logger.info(f"Pooling {group} samples/cells by bootstrap sampling with {bootstrap_n} \
-                iterations and {bootstrap_fraction*100}% non-replacing sampling.\
-                This may take time. Wait patiently and do not stop the code, please.")
+            logger.info(f"Pooling {group} samples/cells by bootstrap sampling with {bootstrap_n} iterations and {bootstrap_fraction*100}% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.")
 
             if len(group_samples) > 0:
                 for i in range(bootstrap_n):
-                    sampled_cols = random.sample(list(group_samples), int(len(group_samples) * bootstrap_fraction))
-                    pooled_df = df.loc[sampled_cols].mean(axis=1).to_frame(name=f"{group}_bootstrap_{i+1}").T
+                    sampled_cols = np.random.choice(group_samples, size=int(len(group_samples) * bootstrap_fraction), replace=False)
+                    pooled_df = df.loc[sampled_cols].mean(axis=0,numeric_only=True).to_frame(name=f"{group}_bootstrap_{i+1}").T
                     pooled_dfs.append(pooled_df)
     
     if pooled_dfs:
-        pooled_df = pd.concat(pooled_dfs, axis=1)
+        pooled_df = pd.concat(pooled_dfs, axis=0)
         logger.info(f"Pooled DataFrame shape: {pooled_df.shape}")
         if pooled_df.shape[0] <= 2:
             logger.warning("Invalid number of pseudo_bulk sample. Returning original DataFrame")
@@ -72,8 +70,8 @@ def build_submatrix(df_all: pd.DataFrame, picked_names, picked_alias, output_dir
     sub = pd.DataFrame({
     name: df_all.get(name, df_all.get(name_alias, pd.Series(fill_value, index=df_all.index)))
     for name, name_alias in zip(picked_names, picked_alias)})
-
     if save_extract:
+        
         sub.to_csv(os.path.join(output_dir, save_extract))
         logger.info(f"Extracted unzscored submatrix saved to {os.path.join(output_dir, save_extract)}")
     return sub
@@ -137,7 +135,7 @@ def predict(
     if not os.path.exists(model_file):
         logger.error(f"miRNA file {model_file} does not exist.")
         raise FileNotFoundError(f"miRNA file {model_file} not found.")        
-    if not os.path.isdir(output_dir) or '.':
+    if not os.path.isdir(output_dir) and '.':
         logger.warning(f"Input file {output_dir} does not exist. Created.")
         os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
     if group_file and not os.path.exists(group_file):
@@ -152,7 +150,7 @@ def predict(
 
     
     if input_path.endswith(".h5ad"):
-        ad = sc.read_h5ad(input_path, backed="r")
+        ad = sc.read_h5ad(input_path)
         data_matrix = ad.to_df()
     elif input_path.endswith((".csv", ".csv.gz")):
         data_matrix = pd.read_csv(input_path, index_col=0).T
@@ -201,7 +199,8 @@ def predict(
         random_seed=random_seed
     )
     logger.info(f"Pooled matrix shape: {pooled_matrix.shape}")
-    
+
+
     # Extract 977 landmark genes
     if extract:
         L1000_gene = pd.read_csv(os.path.join(storage_dir, 'L1000gene.csv'), header=None)
