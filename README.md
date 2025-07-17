@@ -6,6 +6,7 @@
 ## Usage
 ### 💡 Script: 
 **SiCmiR.py** support extract landmark genes, conduct z-score normalization & miRNA prediction (the same as script/SiCmiR_beta.py)
+
 **SiCmiR_full.py** support generate pseudo bulk samples, extract landmark genes, conduct z-score normalization & miRNA prediction
 
 The main script accepts input gene expression matrix (genes in rows and samples/cells in columns) and outputs predicted miRNA expression.
