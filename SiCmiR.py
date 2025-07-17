@@ -6,31 +6,29 @@ import numpy as np
 from scipy.stats import zscore
 import torch
 import torch.nn as nn
+import logging
+import random
+import math
+import time
+import scanpy as sc
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 torch.set_default_dtype(torch.float)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #----Part I: Data preparation----#
 def build_submatrix(df_all: pd.DataFrame, picked_names, picked_alias, output_dir, fill_value=0, save_extract=None):
-    sub = pd.DataFrame(index=df_all.index)
-    cols = []
-    for i in range(977):
-        name = picked_names[i]
-        name_alias = picked_alias[i]
-        if name in df_all.columns:
-            col = df_all[name]
-            col.name = name
-        elif name_alias in df_all.columns:
-            col = df_all[name_alias]
-            col.name = name
-        else:
-            col = pd.Series(fill_value, index=df_all.index) #fill 0 if a required gene does not exist
-            col.name = name   
-        cols.append(col)
-    sub = pd.concat(cols, axis=1)
+    logger.info("Building submatrix with 977 landmark genes.")
+    sub = pd.DataFrame({
+    name: df_all.get(name, df_all.get(name_alias, pd.Series(fill_value, index=df_all.index)))
+    for name, name_alias in zip(picked_names, picked_alias)})
     if save_extract:
-        sub.to_csv(os.path.join(output_dir,save_extract))
-
+        
+        sub.to_csv(os.path.join(output_dir, save_extract))
+        logger.info(f"Extracted unzscored submatrix saved to {os.path.join(output_dir, save_extract)}")
     return sub
 
 #----Part II: Prediction----#
@@ -66,21 +64,56 @@ def predict(
     save_extract=None,
     save_zscore_input=None
 ):
-    
-    # Load model
-    net = torch.load(f"{model_path}", map_location=device)
-    net.eval()
+
+    logger.info("Starting SiCmiR prediction pipeline.")
+    if not os.path.exists(input_path):
+        logger.error(f"Input file {input_path} does not exist.")
+        raise FileNotFoundError(f"Input file {input_path} not found.")
+    if not os.path.isdir(storage_dir):
+        logger.error(f"Input file {storage_dir} does not exist.")
+        raise FileNotFoundError(f"Input file {storage_dir} not found.")
+    L1000_file = os.path.join(storage_dir, 'L1000gene.csv')
+    miRNA_file = os.path.join(storage_dir, '1298miRNA.csv')
+    model_file = os.path.join(storage_dir, 'DNN_miRNA.pth')
+    if not os.path.exists(L1000_file):
+        logger.error(f"L1000 gene file {L1000_file} does not exist.")
+        raise FileNotFoundError(f"L1000 gene file {L1000_file} not found.")
+    if not os.path.exists(miRNA_file):
+        logger.error(f"miRNA file {miRNA_file} does not exist.")
+        raise FileNotFoundError(f"miRNA file {miRNA_file} not found.")
+    if not os.path.exists(model_file):
+        logger.error(f"miRNA file {model_file} does not exist.")
+        raise FileNotFoundError(f"miRNA file {model_file} not found.")        
+    if not os.path.isdir(output_dir) and '.':
+        logger.warning(f"Input file {output_dir} does not exist. Created.")
+        os.makedirs(os.path.dirname(output_path) or '.', exist_ok=True)
+    if len(output_path) == 0:
+        logger.error(f"Expected output filename.")
+        raise ValueError("No output filename specified.")
+
+
+    if input_path.endswith(".h5ad"):
+        ad = sc.read_h5ad(input_path)
+        data_matrix = ad.to_df()
+    elif input_path.endswith((".csv", ".csv.gz")):
+        data_matrix = pd.read_csv(input_path, index_col=0).T
+    else: 
+        logger.error(f"Invalid input formmat.")
+        raise TypeError ("Unsupported file format; expected .h5ad or .csv(.gz)")
+    logger.info(f"Input matrix shape: {data_matrix.shape}")
+    if data_matrix.empty:
+        logger.error("Input matrix is empty or improperly formatted.")
+        raise ValueError("Invalid input matrix.")
+        
 
     if extract:
         L1000_gene = pd.read_csv(os.path.join(storage_dir,'L1000gene.csv'), header=None)
         picked_names = L1000_gene.loc[:, 0]
         picked_alias = L1000_gene.loc[:, 1]
-        data_matrix = pd.read_csv(input_path, index_col=0).T
-
         extracted_mRNA = build_submatrix(
             data_matrix, picked_names, picked_alias, output_dir, save_extract=save_extract)
     else:
-        extracted_mRNA = pd.read_csv(input_path, index_col=0).T
+        extracted_mRNA = data_matrix
 
     if normalization:
         extracted_zscored_mRNA = extracted_mRNA.apply(lambda x: zscore(x, ddof=0), axis=0).fillna(0) #zscore scaling and fill NA with 0
@@ -90,14 +123,20 @@ def predict(
     else:
         X_test_P = extracted_mRNA
 
+    # Load model
+    net = torch.load(f"{model_path}", map_location=device)
+    net.eval()
+    
     X_test_Tensor = torch.tensor(X_test_P.values, dtype=torch.float)
     miRNA_1298 = pd.read_csv(os.path.join(storage_dir,'1298miRNA.csv'), header=None).loc[:, 0]
     y_test_out = pd.DataFrame(net(X_test_Tensor).detach().numpy())
     y_test_out.columns = miRNA_1298
     y_test_out.index = X_test_P.index
 
+    # Save predicted miRNA expression
     y_test_out.to_csv(os.path.join(output_dir,output_path))
-    print(f"Results saved to {output_dir}")
+    logger.info(f"Results saved to {os.path.join(output_dir, output_path)}")
+    
     return y_test_out
 
 def main():
