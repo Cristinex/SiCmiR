@@ -1,5 +1,23 @@
-Please download raw_GSE64465_mRNA_data.h5ad from 10.5281/zenodo.16025109 
-        
-        
-        
-        
+# Please download raw_GSE64465_mRNA_data.h5ad from 10.5281/zenodo.16025109 
+
+# Process of generate this data file:
+
+# In R after Seurat pre-proccessing:
+
+library(Seurat)
+library(SeuratDisk)
+
+counts = GetAssayData(scobj,assay = "RNA", slot = "data") 
+meta.data = a@meta.data[, c("orig.ident"), drop = FALSE] 
+subscobj <- CreateSeuratObject(counts = GetAssayData(a,assay = "RNA", slot = "data"),
+        meta.data = a@meta.data[, c("orig.ident"), drop = FALSE])
+SaveH5Seurat(minimal_seurat, filename = "raw_GSE644565_mRNA_data.h5seurat", overwrite = TRUE)        
+Convert("raw_GSE644565_mRNA_data.h5seurat", dest = "h5ad", overwrite = TRUE, assay = "RNA")        
+
+# In python after Scanpy pre-proccessing:
+
+import scanpy as sc
+import pandas as pd
+
+# finished sc.pp.filter / sc.pp.normalize_total / sc.pp.log1p 
+adata.write("raw_GSE644565_mRNA_data.h5ad", compression="gzip")
