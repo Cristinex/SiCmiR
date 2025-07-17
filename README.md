@@ -21,7 +21,7 @@ SiCmiR-main/
 ├── data/                       # supporting documents for main script
 │   ├── L1000gene.csv           # landmark genes (used in extraction)
 │   ├── miRNA1298.csv           # miRNAs (used for miRNA prediction)
-|   └── DNN_miRNA.pth           # pretrained_model (used for miRNA prediction)
+│   └── DNN_miRNA.pth           # pretrained_model (used for miRNA prediction)
 
 ├── script/                     # script
 │   ├── SiCmiR_beta.py          # the same as SiCmiR.py
@@ -29,7 +29,8 @@ SiCmiR-main/
 
 ├── demo/                       # data for quick test (genes in rows and samples/cells in columns)
 │   ├── test_mRNA.csv           # an mRNA expression matrix already extracted & normalized and no need to generate pseudo bulk samples
-│   └── raw_GSE64465_mRNA.csv   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
+│   │── raw_GSE64465_mRNA.h5ad   # a single-cell expression matrix from Seurat after batch effect removal containing 3k+ cells
+│   │                             (See download link at raw_GSE64465_mRNA.txt)
 │   └── cell_meta.csv           # cell metadata for GSE644565
 
 └── outputs/                    # demonstration for output
@@ -48,7 +49,7 @@ python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 (generate pseudo bulk samples, extract landmark genes, conduct z-score normalization & miRNA prediction)
 ```bash
 python SiCmiR_full.py \
-  --input ./demo/raw_GSE64465_mRNA.csv \
+  --input ./demo/raw_GSE64465_mRNA.h5ad \
   --output_dir ./ \
   --save_extract extracted_unzscore_mRNA.csv \
   --save_zscore_input extracted_zscore_mRNA.csv \
@@ -61,7 +62,7 @@ python SiCmiR_full.py \
 ### 📕 Available Arguments
 | Argument           | Alias       | Default                          | Description |
 |--------------------|-------------|----------------------------------|-------------|
-| `--input`          | `-i`        | `'./demo/test_mRNA.csv'`      | Input mRNA expression matrix (genes in rows, samples in columns)<br>📌 Remove batch effects before use if needed. |
+| `--input`          | `-i`        | `'./demo/test_mRNA.csv'`      | Input mRNA expression matrix <br>.csv: genes in rows, samples in columns; <br> .h5ad: genes in columns, samples in rows;<br>📌 Remove batch effects before use if needed. |
 | `--output`         | `-o`        | `'predicted_miRNA.csv'`          | Output file: predicted miRNA expression, with miRNAs in rows and samples in columns |
 | `--output_dir`     | `-od`       | `'./'`                            | Output directory for saving the predicted results |
 | `--storage_dir`    | `-sd`       | `'./data/'`                       | Directory to store pretrained model and auxiliary files |
