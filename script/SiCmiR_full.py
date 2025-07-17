@@ -21,20 +21,6 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 #----Part I: Data preparation----#
 def pool_samples(df: pd.DataFrame, group_col=None, pooling_method='none', bootstrap_n=2, bootstrap_fraction=0.8, random_seed=42):
-    """
-    Pool samples by group using either averaging or bootstrap sampling.
-    
-    Parameters:
-    - df: Input DataFrame (samples in rows, genes in columns).
-    - group_col: Series or list with group labels for each sample (column).
-    - pooling_method: 'none', 'average', or 'bootstrap'.
-    - bootstrap_iterations: Number of bootstrap samples per group.
-    - bootstrap_fraction: Fraction of samples to use in each bootstrap iteration.
-    - random_seed: Seed for reproducibility in bootstrap sampling.
-    
-    Returns:
-    - Pooled DataFrame.
-    """
     if pooling_method == 'none' or group_col is None:
         logger.info("No pooling applied.")
         return df
@@ -210,7 +196,7 @@ def predict(
         data_matrix,
         group_col=group_col,
         pooling_method=pooling_method,
-        bootstrap_iterations=bootstrap_n,
+        bootstrap_n=bootstrap_n,
         bootstrap_fraction=0.8,
         random_seed=random_seed
     )
