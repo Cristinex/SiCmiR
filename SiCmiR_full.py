@@ -249,8 +249,9 @@ def main():
         help="Directory to save output files. Default: %(default)s")
     parser.add_argument("--storage_dir", "-sd", default='./data/',
         help="Directory to store pretrained model and auxiliary files. Default: %(default)s")
-    parser.add_argument("--extract", "-e", action='store_true',
-        help="Extract 977 landmark genes from input mRNA matrix. Default: True")
+    parser.set_defaults(extract=True)
+    parser.add_argument("--no_extract", "-n",dest="extract", action='store_false',
+        help="Do not extract 977 landmark genes from input mRNA matrix (Not Recomended).")
     parser.add_argument("--normalization", "-norm", action='store_true',
         help="Perform z-score normalization on input matrix. Default: False")
     parser.add_argument("--save_extract", "-se", default=None,
