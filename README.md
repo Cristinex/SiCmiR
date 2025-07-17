@@ -62,6 +62,31 @@ python SiCmiR_full.py \
   --normalization \
   --pooling_method bootstrap \
   --group_file ./demo/cell_metadata.csv
+
+Output:
+2025-07-17 21:48:36,334 - INFO - Starting SiCmiR prediction pipeline.
+2025-07-17 21:48:36,334 - INFO - Using dynamic seed: 1752760116
+2025-07-17 21:48:38,581 - INFO - Input matrix shape: (3497, 20812)
+2025-07-17 21:48:38,684 - INFO - Loaded group information from ./demo/cell_metadata.csv
+2025-07-17 21:48:38,686 - INFO - Pooling Malignant samples/cells by bootstrap sampling with 12 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:40,705 - INFO - Pooling Oligodendrocyte samples/cells by bootstrap sampling with 1 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:40,727 - INFO - Pooling Microglia samples/cells by bootstrap sampling with 7 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:41,523 - INFO - Pooling Macrophage samples/cells by bootstrap sampling with 11 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:43,579 - INFO - Pooling Endothelial Cell samples/cells by bootstrap sampling with 1 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:43,592 - INFO - Pooling OPC samples/cells by bootstrap sampling with 4 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:43,878 - INFO - Pooling Astrocyte samples/cells by bootstrap sampling with 1 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:43,904 - INFO - Pooling Neuron samples/cells by bootstrap sampling with 1 iterations and 80.0% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.
+2025-07-17 21:48:43,953 - INFO - Pooled DataFrame shape: (38, 20812)
+2025-07-17 21:48:43,954 - INFO - Pooled matrix shape: (38, 20812)
+2025-07-17 21:48:45,625 - INFO - Building submatrix with 977 landmark genes.
+2025-07-17 21:48:45,801 - INFO - Extracted unzscored submatrix saved to outputs/extracted_unzscore_mRNA.csv
+2025-07-17 21:48:45,801 - INFO - Applying z-score normalization.
+2025-07-17 21:48:46,922 - INFO - Z-scored matrix saved to outputs/extracted_zscore_mRNA.csv
+2025-07-17 21:48:46,922 - INFO - Loading model from ./data/DNN_miRNA.pth
+SiCmiR_full.py:241: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  net = torch.load(model_path, map_location=device)
+2025-07-17 21:48:47,347 - INFO - Results saved to outputs/predicted_GSE64465_miRNA.csv
+
 ```
 
 ### 📕 Available Arguments
