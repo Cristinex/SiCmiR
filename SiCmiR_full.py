@@ -77,23 +77,34 @@ def build_submatrix(df_all: pd.DataFrame, picked_names, picked_alias, output_dir
     return sub
 
 #----Part II: Prediction----#
-class NeuralNet(nn.Module):
-    def __init__(self, input_size=977, hidden_size=1024, output_size=1298):
-        super(NeuralNet, self).__init__()
-        self.model = nn.Sequential(
-            nn.Linear(input_size, hidden_size),
-            nn.BatchNorm1d(hidden_size),
-            nn.ReLU(),
-            nn.Dropout(p=0.3),
+class NeuralBlock(nn.Module):
+    def __init__(self, hidden_size = 1024, dropout = 0.3):
+        super().__init__()
+        self.block = nn.Sequential(
             nn.Linear(hidden_size, hidden_size),
-            nn.ReLU(),
             nn.BatchNorm1d(hidden_size),
-            nn.Dropout(p=0.3),
-            nn.Linear(hidden_size, output_size),
+            nn.ReLU(),
+            nn.Dropout(dropout)
         )
     def forward(self, x):
-        x = self.model(x)
-        return x
+        return self.block(x)
+
+class NeuralNet(nn.Module):
+    def __init__(self, input_dim=977, hidden_size=1024, output_dim=1298, depth = 1, dropout = 0.3):
+        super(NeuralNet, self).__init__()
+        layers = [
+            nn.Linear(input_dim, hidden_size),
+            nn.BatchNorm1d(hidden_size),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+        ]
+        layers += [NeuralBlock(hidden_size, dropout) for _ in range(depth)]
+        layers.append(nn.Linear(hidden_size, output_dim))
+        self.model = nn.Sequential(*layers)
+        
+    def forward(self, x):
+        return self.model(x)
+
 
 def predict(
     model_path,
