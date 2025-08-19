@@ -224,9 +224,12 @@ def predict(
     
     # Load model and predict
     logger.info(f"Loading model from {model_path}")
-    net = torch.load(model_path, map_location=device)
+    #net = torch.load(model_path, map_location=device)
+    #net.eval()
+    net = NeuralNet()
+    state_dict = torch.load(model_path, map_location=device)  # 如果是在CPU上加载
+    net.load_state_dict(state_dict)
     net.eval()
-    
     X_test_Tensor = torch.tensor(X_test_P.values, dtype=torch.float)
     miRNA_1298 = pd.read_csv(os.path.join(storage_dir, '1298miRNA.csv'), header=None).loc[:, 0]
     y_test_out = pd.DataFrame(net(X_test_Tensor).detach().numpy())
