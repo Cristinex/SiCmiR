@@ -45,7 +45,7 @@ def pool_samples(df: pd.DataFrame, group_col=None, pooling_method='none', bootst
         random.seed(random_seed)
         for group in unique_groups:
             group_samples = group_col[group_col == group].index
-            bootstrap_n = max(1, math.ceil(len(group_samples) / 1000))
+            bootstrap_n = max(2, math.ceil(len(group_samples) / 1000))
             logger.info(f"Pooling {group} samples/cells by bootstrap sampling with {bootstrap_n} iterations and {bootstrap_fraction*100}% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.")
 
             if len(group_samples) > 0:
@@ -172,6 +172,12 @@ def predict(
             group_df = pd.read_csv(group_file, index_col=0)
             if 'group' in group_df.columns:
                 group_col = group_df['group']
+                group_counts = group_col.value_counts()
+                small_groups = group_counts[group_counts < 3].index.tolist()
+                if small_groups:
+                    logger.warning(f"Groups with < 3 samples will be ignored: {small_groups}")
+                group_col = group_col.mask(group_col.isin(small_groups))
+
                 if group_col is not None:
                     group_col = group_col.reindex(data_matrix.index)
                     missing_samples = group_col.index[group_col.isna()]
@@ -186,6 +192,10 @@ def predict(
                 if missing_in_group:
                     logger.warning(f"Samples in input matrix not found in group file: {missing_in_group}. These will be excluded from pooling.")
                     data_matrix = data_matrix.loc[data_matrix.index.isin(group_col.index)]
+                group_counts = group_col.value_counts()
+                small_groups = group_counts[group_counts < 3].index.tolist()
+                if small_groups:
+                    logger.warning(f"Groups with < 3 samples will be excluded: {small_groups}")
             else:
                 logger.error("Group file does not contain a column named 'group'. Required for pooling.")
                 raise ValueError("Invalid group file: 'group' column missing.")
@@ -211,7 +221,8 @@ def predict(
             pooled_matrix, picked_names, picked_alias, output_dir, save_extract=save_extract)
     else:
         extracted_mRNA = pooled_matrix
-    
+    extracted_mRNA.to_csv('lineage_extracted_mRNA.csv')
+    pooled_matrix.to_csv('lineage_pooled_matrix.csv')
     # Normalize if requested
     if normalization:
         logger.info("Applying z-score normalization.")
@@ -228,7 +239,7 @@ def predict(
     #net = torch.load(model_path, map_location=device)
     #net.eval()
     net = NeuralNet()
-    state_dict = torch.load(model_path, map_location=device) 
+    state_dict = torch.load(model_path, map_location=device)  
     net.load_state_dict(state_dict)
     net.eval()
     X_test_Tensor = torch.tensor(X_test_P.values, dtype=torch.float)
