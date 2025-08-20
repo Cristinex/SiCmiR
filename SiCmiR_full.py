@@ -228,7 +228,7 @@ def predict(
     #net = torch.load(model_path, map_location=device)
     #net.eval()
     net = NeuralNet()
-    state_dict = torch.load(model_path, map_location=device)  # 如果是在CPU上加载
+    state_dict = torch.load(model_path, map_location=device) 
     net.load_state_dict(state_dict)
     net.eval()
     X_test_Tensor = torch.tensor(X_test_P.values, dtype=torch.float)
