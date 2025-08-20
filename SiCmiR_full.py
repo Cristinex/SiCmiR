@@ -45,12 +45,12 @@ def pool_samples(df: pd.DataFrame, group_col=None, pooling_method='none', bootst
         random.seed(random_seed)
         for group in unique_groups:
             group_samples = group_col[group_col == group].index
-            bootstrap_n = max(1, math.ceil(len(group_samples) / 100))
+            bootstrap_n = max(1, math.ceil(len(group_samples) / 1000))
             logger.info(f"Pooling {group} samples/cells by bootstrap sampling with {bootstrap_n} iterations and {bootstrap_fraction*100}% non-replacing sampling. This may take time. Wait patiently and do not stop the code, please.")
 
             if len(group_samples) > 0:
                 for i in range(bootstrap_n):
-                    sampled_cols = np.random.choice(group_samples, size=int(len(group_samples) * bootstrap_fraction), replace=False)
+                    sampled_cols = np.random.choice(group_samples, size=min(int(len(group_samples) * bootstrap_fraction),1000), replace=True)
                     pooled_df = df.loc[sampled_cols].mean(axis=0,numeric_only=True).to_frame(name=f"{group}_bootstrap_{i+1}").T
                     pooled_dfs.append(pooled_df)
     
