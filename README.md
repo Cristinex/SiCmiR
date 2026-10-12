@@ -164,6 +164,11 @@ cd SiCmiR-main
 python SiCmiR.py --input ./demo/test_mRNA.csv --output predicted_miRNA.csv
 ```
 
+### 📃 Citation:
+Please cite our method by
 
+```bash
+X.-X. Cai, J.-S. Liao, J.-J. Ma, et al. “ SiCmiR Atlas: Single-Cell miRNA Landscape Reveals Hub-miRNA and Network Signatures in Human Cancers.” Advanced Science 13, no. 16 (2026): e14446. https://doi.org/10.1002/advs.202514446
+```
 
 
